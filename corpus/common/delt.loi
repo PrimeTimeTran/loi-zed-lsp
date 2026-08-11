@@ -1,0 +1,41 @@
+```rb
+def add(a, b) {
+  return a + b;
+}
+```
+
+```js
+function subtract() {
+  console.log("Hello, World!");
+}
+```
+
+```ts
+function multiply(a: number, b: number): number {
+  return a * b;
+}
+```
+
+```csharp
+def divide(a, b) {
+  return a / b;  
+}
+```
+
+```py
+def mod(a: float, b: float): float {
+  return a / b;
+}
+```
+
+```go
+func add(x int, y int) int {
+	return x + y
+}
+```
+
+```java
+public class HelloWorld {
+  puts "Hello, World!"
+end
+```

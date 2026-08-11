@@ -1,0 +1,257 @@
+module.exports = grammar({
+  name: "loi",
+
+  extras: $ => [
+    /\s/,
+    $.comment,
+  ],
+
+  rules: {
+    source_file: $ => repeat($._statement),
+    _statement: $ => choice( $.declaration, $.struct_definition, $.enum_definition, $.function_definition, $.return_statement, $.break_statement, $.continue_statement, $.control_flow, $.expression, $.block ), 
+    // keyword: $ => choice( "fn", "let", "const", "static", "struct", "enum", "return", "break", "continue", "async", "await" ),
+    return_statement: $ =>
+    seq(
+        "return",
+        $.expression
+    ),
+
+    // ==========================
+    // Declarations
+    // ==========================
+
+    declaration: $ =>
+      seq(
+        choice(
+          "let",
+          "const",
+          "static"
+        ),
+        field("name", $.identifier),
+        optional(seq(
+          "=",
+          field("value", $.expression)
+        ))
+      ),
+
+    // ==========================
+    // Functions
+    // ==========================
+
+    function_definition: $ =>
+      seq(
+        optional("pub"),
+        "fn",
+        field("name", $.identifier),
+        optional($.parameters),
+        optional($.return_type),
+        $.block
+      ),
+
+    parameters: $ =>
+      seq(
+        "(",
+        commaSep($.parameter),
+        ")"
+      ),
+
+    parameter: $ =>
+      seq(
+        $.identifier,
+        optional(seq(":", $.type))
+      ),
+
+    return_type: $ =>
+    seq(
+        "->",
+        $.type
+    ),
+    
+    break_statement: $ =>
+    "break",
+
+    continue_statement: $ =>
+    "continue",
+    // ==========================
+    // Types
+    // ==========================
+
+    type: $ =>
+      choice(
+        $.identifier,
+        seq("dyn", $.identifier)
+      ),
+
+    // ==========================
+    // Control Flow
+    // ==========================
+
+    control_flow: $ =>
+      choice(
+        $.if_expression,
+        $.match_expression,
+        $.loop_expression
+      ),
+
+    if_expression: $ =>
+      seq(
+        choice(
+          "if",
+          "unless"
+        ),
+        $.expression,
+        $.block,
+        optional(seq(
+          "else",
+          $.block
+        ))
+      ),
+
+    match_expression: $ =>
+      seq(
+        "match",
+        $.expression,
+        $.block
+      ),
+
+    loop_expression: $ =>
+      seq(
+        choice(
+          "loop",
+          "while",
+          "for",
+          "until"
+        ),
+        repeat1($.expression),
+        $.block
+      ),
+
+    // ==========================
+    // Expressions
+    // ==========================
+
+    expression: $ =>
+      choice(
+        $.identifier,
+        $.number,
+        $.string,
+        $.boolean,
+        $.call,
+        $.binary_expression
+      ),
+
+    binary_expression: $ =>
+      prec.left(seq(
+        $.expression,
+        choice(
+          "+",
+          "-",
+          "*",
+          "/",
+          "%",
+          "^",
+          "==",
+          "!=",
+          ">",
+          "<",
+          ">=",
+          "<=",
+          "&&",
+          "||",
+          "|",
+          "//"
+        ),
+        $.expression
+      )),
+
+    call: $ =>
+      seq(
+        $.identifier,
+        "(",
+        optional(commaSep($.expression)),
+        ")"
+      ),
+
+    // ==========================
+    // Literals
+    // ==========================
+
+    number: $ =>
+      /\d+(\.\d+)?/,
+
+    string: $ =>
+      /"[^"]*"/,
+
+    boolean: $ =>
+      choice(
+        "true",
+        "false"
+      ),
+
+    identifier: $ =>
+    token(prec(-1, /[a-zA-Z_][a-zA-Z0-9_]*/)),
+
+    keyword: $ =>
+    choice(
+        "fn",
+        "let",
+        "const",
+        "static",
+        "struct",
+        "enum",
+        "return",
+        "break",
+        "continue"
+    ),
+
+    // ==========================
+    // Blocks
+    // ==========================
+
+    block: $ =>
+      seq(
+        "{",
+        repeat($._statement),
+        "}"
+      ),
+
+
+    // ==========================
+    // Comments
+    // ==========================
+
+    comment: $ =>
+      token(seq(
+        "#",
+        /.*/
+      )),
+
+    struct_definition: $ =>
+    seq(
+        "struct",
+        field("name", $.identifier),
+        $.block
+    ),
+
+    enum_definition: $ =>
+    seq(
+        "enum",
+        field("name", $.identifier),
+        $.block
+    ),
+
+    let_statement: $ =>
+    seq(
+        "let",
+        $.identifier
+    ),
+  }
+});
+
+
+function commaSep(rule) {
+  return optional(seq(
+    rule,
+    repeat(seq(",", rule))
+  ));
+}

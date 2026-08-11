@@ -1,0 +1,11 @@
+fn climbing_stairs(n: int) {
+    "Naive brute force approach, recursive"
+}
+
+fn climbing_stairs(n: int) {
+    "Memoization"
+}
+    
+fn climbing_stairs(n: int) {
+    ∆"Tabulation"
+}

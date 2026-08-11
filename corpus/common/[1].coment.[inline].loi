@@ -1,0 +1,5 @@
+# print("comments get ignored")
+
+print("hello comment 1");
+print("hello comment 2");
+print("hello comment 3");

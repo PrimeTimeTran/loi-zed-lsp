@@ -1,0 +1,64 @@
+# [1] Proves collision warns
+# - [ ] LSP warning with link to previous version if a collision is detected
+let PI = 3.14
+
+# ...
+
+let PI = 3.141
+
+---
+# [2] Tilde solution
+# - [ ] Warning silenced by ~ between two 'similar' items'
+#    Example: A ~ B 
+# 
+# The following will produce no errors, and the 'inactive' items will be 'dimmed' by the LSP/compiler, like commented code
+
+# Previously defined...
+fn climb_stairs() {
+  # naive iterative
+}
+~
+# Collision...? No. They're simplar!
+fn climb_stairs() {
+  # recrusive top down
+}
+~
+# Another!
+fn climb_stairs() {
+  # recrusive bottom up
+}
+~
+# Another!
+fn climb_stairs() {
+  # recursive top down memo
+}
+~
+# Another!
+fn climb_stairs() {
+  # recursive bottom up memo
+}
+~
+# continued... tabulated algorithm... etc.
+
+
+
+---
+# [3] Tilde solution
+# Top down wins, but a 1 way ticket to mars is undesirable. How do we force compiler to respect previous?
+
+# Previously defined...
+fn climb_stairs() {
+  # naive iterative
+}
+~
+# This one is now the one which is selected by compiler to run.
+*fn climb_stairs() {
+  # recrusive bottom up
+}
+~
+# Another!
+fn climb_stairs() {
+  # recursive top down memo
+}
+~
+# ...

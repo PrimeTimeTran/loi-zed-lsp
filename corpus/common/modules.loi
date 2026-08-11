@@ -1,0 +1,40 @@
+pkg.loi
+mod.loi
+lib.loi
+main.loi
+
+tools/
+crates/
+tests/
+src/bin/*.rs            // additional binaries
+examples/
+    demo.rs             // cargo run --example demo
+benches/
+    bench.rs            // cargo bench
+tests/
+    integration.rs      // integration tests
+build.rs                // build script
+
+
+
+
+
+/.
+    /pkg                        // showroom of painints, analgous to crates/ in rust
+        /vfs                    // Have their own Cargo.toml
+        /lexer
+        /parser
+        /compiler
+    /src                        // workshop, for WIP code 
+        lib.rs                  // defines internal modules.r
+                                    // - Anything imported here is exposed to EVERYTHING downstream.
+                                    // - I think... I haven't completely let go of the idea of everything is public by default inside the pkg
+        pkg.rs                  // defines public privacy
+                                    // - This is the one where I think we can improve DX
+                                    // Instead of going through structs, enums, functions, methods, everywhere, we opt out in this file
+                                    // In other words, I can copy my entire src file to a ./pkg/FOO/src/ without changing anything
+                                    // And if there are any internal implementations I dont want downstream consumers to use
+                                    // then pkg.rs has something "lexer is private"
+        main.rs                 // defines entrypoint to 'this' pkg, inside of Cargo.toml
+    /bin                        // executables, like scripts dir from npm
+    Cargo.toml                  // 

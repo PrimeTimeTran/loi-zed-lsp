@@ -1,0 +1,192 @@
+# I think this clarification gets much closer to the core idea. The handler concept isn't really "a callback attached to a function." It's about **who owns the response to an event**.
+
+# You're separating:
+
+# * **callee**: the thing that executes
+# * **caller**: the thing that invoked it
+# * **observer/tooling**: things watching execution
+# * **human/developer**: someone trying to understand or control behavior
+
+# Most languages collapse these.
+
+# ---
+
+# Your examples:
+
+# ```rust
+# fn count() {
+#     // ...
+# }.on_error"report_metrics"
+# ```
+
+# means:
+
+# > If `count` itself fails, this function has a default response policy.
+
+# Whereas:
+
+# ```rust
+# count().on_error"handle_exception"
+# ```
+
+# means:
+
+# > For this particular invocation of `count`, the caller wants to handle failure this way.
+
+# Those are very different.
+
+# ---
+
+# This actually maps closely to exception ownership.
+
+# Most languages force you into:
+
+# ```rust
+# fn count() -> Result<i32, Error> {
+#     ...
+# }
+
+# match count() {
+#     Ok(v) => {},
+#     Err(e) => handle_exception(e)
+# }
+# ```
+
+# The caller decides.
+
+# But sometimes the callee has important context:
+
+# ```rust
+# fn write_database() {
+#     ...
+# }.on_error"rollback_transaction"
+# ```
+
+# The callee knows something the caller does not.
+
+# ---
+
+# So your attachment syntax could represent **execution policy**:
+
+# ```rust
+# count()
+#     "on_error=handle_exception"
+# ```
+
+# or:
+
+# ```rust
+# count()"error:handle_exception"
+# ```
+
+# The function remains pure. The attachment is a policy layer.
+
+# ---
+
+# The really interesting case is composition:
+
+# ```rust
+# a()
+#     .on_error"recover_a"
+
+# b()
+#     .on_error"recover_b"
+
+# a()
+#     .then(b)
+#     .on_error"recover_pipeline"
+# ```
+
+# Now you have layers:
+
+# ```
+#            pipeline handler
+#                  |
+#         -----------------
+#         |               |
+#      b handler       a handler
+# ```
+
+# Which one wins?
+
+# That question forces you to define a model:
+
+# * nearest scope wins?
+# * caller overrides callee?
+# * both execute?
+# * first handler that succeeds?
+# * handlers are accumulated?
+
+# ---
+
+# This is why I would avoid naming them "handlers" initially. A handler implies control flow. What you're describing might be closer to:
+
+# * **policies**
+# * **directives**
+# * **contracts**
+# * **execution annotations**
+# * **behaviors**
+
+# For example:
+
+# ```rust
+# fn count() "on_error=report_metrics" {
+# }
+# ```
+
+# could mean:
+
+# > This function declares an available behavior.
+
+# while:
+
+# ```rust
+# count() "on_error=handle_exception"
+# ```
+
+# means:
+
+# > This invocation supplies a behavior.
+
+# ---
+
+# The caller/callee distinction is actually the most interesting part. A function currently only has:
+
+# ```text
+# input → function → output
+# ```
+
+# You are introducing:
+
+# ```text
+# caller
+#    |
+#    | invocation context
+#    ↓
+# callee
+#    |
+#    | attached policies
+#    ↓
+# observers / handlers / tools
+# ```
+
+# That extra context channel is something most languages don't have a first-class representation for.
+
+# And it connects back to your original `peak!(out)"verbose;path"` idea: the attachment is not part of the value. It's part of the **relationship between an artifact and the system interpreting it**. That is probably why the concept keeps expanding when you think about it. You aren't adding "extra parameters"; you're adding another dimension.
+
+
+# fn report_metrics() {
+#     // ...
+# }
+
+# fn count() {
+#     // ...
+#     // If count itself fails, this function has a default response policy.
+# }.on_error"report_metrics"
+
+# fn handle_exception() {
+#     // ...
+# }
+
+# // For this particular invocation of count, the caller wants to handle failure this way.
+# count().on_error"handle_exception"

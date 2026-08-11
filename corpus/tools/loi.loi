@@ -1,0 +1,11 @@
+# const piiiiiiiiiii = 3.14
+fn fooooo() {}
+fn barrrr() {}
+fn spammmmm() {}
+# fn hammmmm(a, b) {}
+
+let ageeeeeee = 18;
+# a
+
+# line 1: "undefined symbol 'a'
+# line 8: "unknown identifier 'a'

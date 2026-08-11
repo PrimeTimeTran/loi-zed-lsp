@@ -1,0 +1,18 @@
+id = "loi"
+name = "Loi Analyzer"
+version = "0.0.3"
+schema_version = 1
+authors = ["Loi Tran <primetimetran@gmail.com>"]
+description = "Loi programming language LSP support for Zed"
+repository = "https://github.com/PrimeTimeTran/tree-sitter-loi"
+
+[zed]
+api_version = 1
+
+[grammars.loi]
+repository = "https://github.com/PrimeTimeTran/tree-sitter-loi"
+rev = "85489a0ec29a24095e21239c55f7e5430718ec79"
+
+[language_servers.loi-lsp]
+name = "Loi Language Server"
+languages = ["Loi"]

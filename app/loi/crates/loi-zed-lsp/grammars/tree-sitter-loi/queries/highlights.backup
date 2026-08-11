@@ -1,0 +1,65 @@
+; Keywords
+[
+  "fn"
+  "let"
+  "const"
+  "static"
+  "struct"
+  "enum"
+  "if"
+  "else"
+  "match"
+  "loop"
+  "while"
+  "for"
+  "return"
+  "break"
+  "continue"
+  "async"
+  "await"
+  "spawn"
+  "try"
+  "catch"
+  "throw"
+] @keyword
+
+
+; Statements
+(return_statement) @keyword
+(break_statement) @keyword
+(continue_statement) @keyword
+
+
+; Declarations
+
+(struct_definition
+  name: (identifier) @type)
+
+(enum_definition
+  name: (identifier) @type)
+
+
+; Functions
+
+(function_definition
+  name: (identifier) @function)
+
+(call
+  (identifier) @function)
+
+
+; Literals
+
+(number) @number
+(string) @string
+(boolean) @constant.builtin
+
+
+; Variables
+
+(identifier) @variable
+
+
+; Comments
+
+(comment) @comment

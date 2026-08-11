@@ -1,0 +1,10 @@
+
+
+const VOTE_AGE = 18;
+const DRINKING_AGE = 21;
+
+let PI = 3.14;
+
+fn main() {
+            
+}

@@ -1,0 +1,13 @@
+// Imagine we have two packages (pkg) that are siblings in a monorepo.
+// Assuming they have access to one another via dependencies declarations inside of Cargo.toml
+// ./pkg/neighborhood/src/main.loi defines it's entry like this.
+pkg Neighboorhood {
+    fn main() {}
+}
+
+// ./pkg/street/src/main.loi could define it's entry like this.
+pkg {
+    struct {
+        // Empty
+    }
+} is exposed

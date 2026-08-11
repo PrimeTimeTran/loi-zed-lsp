@@ -1,0 +1,23 @@
+[package]
+authors = ["Loi Tran"]
+description = "Loi Analyzer for Zed"
+edition = "2024"
+name = "loi-analyzer-zed-ext"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+
+# zed = "0.2.0"
+zed_extension_api = "0.7.0"
+tree-sitter-language = "0.1.7"
+
+[dev-dependencies]
+tree-sitter = "0.26.11"
+
+# [workspace]

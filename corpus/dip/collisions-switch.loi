@@ -1,0 +1,5 @@
+// [1] Proves collision warns
+
+let country: Country = {name: str, populaton: num, continent: str, geo: {...}, ... }
+ ~ {'USA', 350_000_000, ...}
+ ~ {'China', 100_000_000_000, ...}

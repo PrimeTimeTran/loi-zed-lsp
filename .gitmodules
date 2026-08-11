@@ -1,0 +1,3 @@
+[submodule "grammars/loi"]
+	path = grammars/loi
+	url = https://github.com/PrimeTimeTran/grammars/loi

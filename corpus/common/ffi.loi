@@ -1,0 +1,45 @@
+```rb
+def add(a, b) {
+  return a + b;
+}
+```
+
+```js
+# https://crates.io/crates/swc
+function subtract() {
+  console.log("Hello, World!");
+}
+```
+
+```ts
+# https://crates.io/crates/swc
+function multiply(a: number, b: number): number {
+  return a * b;
+}
+```
+
+```csharp
+def divide(a, b) {
+  return a / b;  
+}
+```
+
+```py
+# https://crates.io/crates/rustpython-parser
+def mod(a: float, b: float): float {
+  return a / b;
+}
+```
+
+```go
+# https://crates.io/crates/tree-sitter-go
+func add(x int, y int) int {
+	return x + y
+}
+```
+
+```java
+public class HelloWorld {
+  puts "Hello, World!"
+end
+```
