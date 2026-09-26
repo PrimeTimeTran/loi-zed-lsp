@@ -21,3 +21,6 @@ tree-sitter-language = "0.1.7"
 tree-sitter = "0.26.11"
 
 # [workspace]
+
+
+[lints]
